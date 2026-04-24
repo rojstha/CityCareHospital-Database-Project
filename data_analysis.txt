@@ -1,0 +1,55 @@
+use CityCareHospital;
+
+// =====================================================
+// Q1: Show all patients
+// =====================================================
+db.patients.find();
+
+// =====================================================
+// Q2: Show all doctors and their specialties
+// =====================================================
+db.doctors.find({}, {first_name: 1, specialty: 1});
+
+// =====================================================
+// Q3: Show all appointments
+// =====================================================
+db.appointments.find();
+
+// =====================================================
+// Q4: Find completed appointments
+// =====================================================
+db.appointments.find({status: "Completed"});
+
+// =====================================================
+// Q5: Find all pending bills
+// =====================================================
+db.billing.find({status: "Pending"});
+
+// =====================================================
+// Q6: Count total number of patients
+// =====================================================
+db.patients.countDocuments();
+
+// =====================================================
+// Q7: Show lab tests for all patients
+// =====================================================
+db.lab_tests.find();
+
+// =====================================================
+// Q8: Show medical records for patient_id = 1
+// =====================================================
+db.medical_records.find({patient_id: 1});
+
+// =====================================================
+// Q9: Show total revenue (sum of billing amounts)
+// =====================================================
+db.billing.aggregate([
+  { $group: { _id: null, totalRevenue: { $sum: "$amount" } } }
+]);
+
+// =====================================================
+// Q10: Show number of appointments per doctor
+// =====================================================
+db.appointments.aggregate([
+  { $group: { _id: "$doctor_id", totalAppointments: { $sum: 1 } } }
+]);
